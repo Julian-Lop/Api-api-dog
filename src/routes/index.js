@@ -20,6 +20,6 @@ router.get('/dogs/:idRaza', controladorDog.verDogdRaza)
 
 router.get('/temperament', controladorTemp.verTemperamentos)
 
-router.post('/dog',controladorDog.sendDog)
+router.post('/dog', controladorDog.sendDog)
 
 module.exports = router;

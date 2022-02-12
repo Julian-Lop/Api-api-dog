@@ -3,10 +3,16 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
+  DATABASE_URL
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
+const sequelize = new Sequelize(`postgres://nhoyqfqswozanj:4e7e1a26588fb3e3d16f25ff0417f020316d58f58d88396dcf7a6ec582a523d3@ec2-34-194-171-47.compute-1.amazonaws.com:5432/dagfmgt132l44e`, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -30,12 +36,12 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Razas, Temperamentos } = sequelize.models;
+const { Razas, Temperamentos } = sequelize.models; // Esta línea me trae los modelos de sequelize
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Razas.belongsToMany(Temperamentos, {through: 'RazasTemperamentos'})
-Temperamentos.belongsToMany(Razas, {through: 'RazasTemperamentos'})
+Razas.belongsToMany(Temperamentos, {through: 'RazasTemperamentos'});
+Temperamentos.belongsToMany(Razas, {through: 'RazasTemperamentos'});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -23,6 +23,6 @@ router.get('/temperament', controladorTemp.verTemperamentos)
 
 router.post('/dog', controladorDog.sendDog)
 
-router.post('/prueba', prueba)
+router.get('/prueba', prueba)
 
 module.exports = router;
